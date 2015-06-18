@@ -10,22 +10,6 @@ module.exports = function (grunt) {
         options: {
           'specs': 'spec/built/specs.js'
         }
-      },
-
-      istanbul: {
-        src: '<%= jasmine.all.src %>',
-        options: {
-          specs: '<%= jasmine.all.options.specs %>',
-          template: require('grunt-template-jasmine-istanbul'),
-          templateOptions: {
-            coverage: 'coverage/json/coverage.json',
-            report: [
-              {type: 'html', options: {dir: 'coverage/html'}},
-              {type: 'lcov', options: {dir: 'coverage/lcov'}},
-              {type: 'text-summary'}
-            ]
-          }
-        }
       }
     },
 
@@ -62,7 +46,6 @@ module.exports = function (grunt) {
   })
 
   grunt.registerTask('test', ['jasmine:all'])
-  grunt.registerTask('coverage', ['jasmine:istanbul'])
   grunt.registerTask('default', ['watch'])
 
   grunt.loadNpmTasks('grunt-browserify')
