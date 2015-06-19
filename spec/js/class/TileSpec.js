@@ -4,10 +4,10 @@ var Tile = require('../../../src/js/class/Tile.js')
 describe('Tile', function () {
   it('should be instantiable', function () {
     expect(function () {
-      new Tile('.')
+      new Tile()
     }).not.toThrow()
 
-    expect(new Tile('.') instanceof Tile).toBe(true)
+    expect(new Tile() instanceof Tile).toBe(true)
   })
 
   it('should throw an error when given an invalid character', function () {
