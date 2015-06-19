@@ -28,7 +28,9 @@ module.exports = function (grunt) {
         dest: 'spec/built/specs.js',
         options: {
           browserifyOptions: {
-            debug: true
+            debug: true,
+            watch: true,
+            keepAlive: true
           }
         }
       }
