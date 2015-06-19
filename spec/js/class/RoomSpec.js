@@ -6,6 +6,8 @@ describe('Room', function () {
     expect(function () {
       new Room()
     }).not.toThrow()
+
+    expect(new Room() instanceof Room).toBe(true)
   })
 
   it('should set default x and y coordinates', function () {
@@ -47,5 +49,30 @@ describe('Room', function () {
 
     expect(room.center).toBeUndefined()
     expect(room.getCenter()).toEqual([5, 5])
+  })
+
+  describe('isIntersecting', function () {
+    it('should return true when intersecting another room', function () {
+      var room1 = new Room({width: 10, height: 10})
+      var room2 = new Room({width: 10, height: 10})
+
+      expect(room1.isIntersecting(room2)).toBe(true)
+    })
+
+    it('should return false when not intersecting another room', function () {
+      var room1 = new Room({width: 10, height: 10})
+      var room2 = new Room({x: 100, y: 100, width: 10, height: 10})
+
+      expect(room1.isIntersecting(room2)).toBe(false)
+    })
+
+    it('should throw an error if passed something other than a room', function () {
+      var room = new Room({width: 10, height: 10})
+
+      expect(function () {room.isIntersecting('something')}).toThrow()
+      expect(function () {room.isIntersecting(1)}).toThrow()
+      expect(function () {room.isIntersecting({'something': 'else'})}).toThrow()
+      expect(function () {room.isIntersecting(['some', 'more', 'things'])}).toThrow()
+    })
   })
 })
