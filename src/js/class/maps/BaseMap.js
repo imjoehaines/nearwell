@@ -1,9 +1,15 @@
 'use strict'
 
 var _ = require('lodash')
+var TileTypes = require('../../helpers/TileTypes')
 
 var defaults = {width: 100, height: 100}
 
+/**
+ * Class to be extended by an actual map class
+ *
+ * @param {Object} options see defaults
+ */
 var BaseMap = function (options) {
   options = _.merge({}, defaults, options)
 
@@ -22,7 +28,7 @@ BaseMap.prototype.generateInitialMap = function () {
   for (var y = 0; y < this.height; y++) {
     var row = []
     for (var x = 0; x < this.width; x++) {
-      row.push(' ')
+      row.push(TileTypes.empty)
     }
 
     map.push(row)
