@@ -6,7 +6,8 @@
 .LSOverride
 
 # Icon must end with two \r
-Icon
+Icon
+
 
 # Thumbnails
 ._*
@@ -70,6 +71,3 @@ npm-debug.log
 
 # sftp configuration file
 sftp-config.json
-
-
-spec/built/
