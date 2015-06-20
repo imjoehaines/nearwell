@@ -4,12 +4,8 @@ module.exports = function (grunt) {
 
     jasmine: {
       all: {
-        src: [
-          'dist/js/nearwell.js'
-        ],
-        options: {
-          'specs': 'spec/built/specs.js'
-        }
+        src: ['dist/js/nearwell.js'],
+        options: {'specs': 'spec/built/specs.js'}
       }
     },
 
@@ -17,11 +13,7 @@ module.exports = function (grunt) {
       develop: {
         src: ['js/**/*.js'],
         dest: 'dist/js/nearwell.js',
-        options: {
-          browserifyOptions: {
-            debug: true
-          }
-        }
+        options: {browserifyOptions: {debug: true}}
       },
       specs: {
         src: ['spec/**/*Spec.js'],
@@ -38,10 +30,7 @@ module.exports = function (grunt) {
 
     watch: {
       js: {
-        files: [
-          'src/js/**/*.js',
-          'spec/**/*.js'
-        ],
+        files: ['src/js/**/*.js', 'spec/**/*.js'],
         tasks: ['browserify:specs', 'jasmine:all']
       }
     }
