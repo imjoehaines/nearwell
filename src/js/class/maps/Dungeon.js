@@ -1,6 +1,6 @@
 'use strict'
 
-var _ = require('lodash')
+var merge = require('lodash/object/merge')
 var random = require('random-number-in-range')
 var BaseMap = require('./BaseMap')
 var Room = require('../Room')
@@ -13,7 +13,7 @@ var defaults = {minRoomSize: 2, maxRoomSize: 10, maxRooms: 10}
  * @param {Object} options room options - see defaults
  */
 var Dungeon = function (options) {
-  options = _.merge({}, defaults, options)
+  options = merge({}, defaults, options)
 
   // extend the BaseMap class
   BaseMap.apply(this, arguments)

@@ -1,6 +1,6 @@
 'use strict'
 
-var _ = require('lodash')
+var merge = require('lodash/object/merge')
 var defaults = {x: 0, y: 0, width: 1, height: 1}
 
 /**
@@ -10,7 +10,7 @@ var defaults = {x: 0, y: 0, width: 1, height: 1}
  */
 var Room = function (options) {
   // merge defaults with options, using a new object so options isn't required
-  options = _.merge({}, defaults, options)
+  options = merge({}, defaults, options)
 
   this.x = options.x
   this.y = options.y

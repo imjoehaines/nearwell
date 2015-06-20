@@ -1,5 +1,6 @@
 /*global describe, it, expect */
-var _ = require('lodash')
+var map = require('lodash/collection/map')
+var difference = require('lodash/array/difference')
 var BaseMap = require('../../../../src/js/class/maps/BaseMap')
 var TileTypes = require('../../../../src/js/helpers/TileTypes')
 
@@ -23,8 +24,8 @@ describe('BaseMap', function () {
       expect(generatedMap[0].length).toBe(3)
 
       // check dimentions after stripping all valid characters
-      expect(_.map(generatedMap, function (row) {
-        return _.difference(row, TileTypes.validTypes)
+      expect(map(generatedMap, function (row) {
+        return difference(row, TileTypes.validTypes)
       })).toEqual([[], []])
     })
   })

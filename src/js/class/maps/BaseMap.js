@@ -1,6 +1,6 @@
 'use strict'
 
-var _ = require('lodash')
+var merge = require('lodash/object/merge')
 var TileTypes = require('../../helpers/TileTypes')
 
 var defaults = {width: 100, height: 100}
@@ -11,7 +11,7 @@ var defaults = {width: 100, height: 100}
  * @param {Object} options see defaults
  */
 var BaseMap = function (options) {
-  options = _.merge({}, defaults, options)
+  options = merge({}, defaults, options)
 
   this.width = options.width
   this.height = options.height

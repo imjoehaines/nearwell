@@ -1,6 +1,7 @@
 'use strict'
 
-var _ = require('lodash')
+var merge = require('lodash/object/merge')
+var indexOf = require('lodash/array/indexOf')
 
 var roomOptions = {minRoomSize: 2, maxRoomSize: 10, maxRooms: 10}
 var defaults = {mapType: 'dungeon', width: 100, height: 100, roomOptions: roomOptions}
@@ -13,9 +14,9 @@ var allowedMapTypes = ['dungeon', 'cave']
  * @throws {Error} if given an invalid map type
  */
 var MapGenerator = function (options) {
-  options = _.merge({}, defaults, options)
+  options = merge({}, defaults, options)
 
-  if (_.indexOf(allowedMapTypes, options.mapType) === -1) {
+  if (indexOf(allowedMapTypes, options.mapType) === -1) {
     throw new Error(options.mapType + ' is not a valid map type')
   }
 
