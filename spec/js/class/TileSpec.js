@@ -4,7 +4,7 @@ var Tile = require('../../../src/js/class/Tile.js')
 describe('Tile', function () {
   it('should be instantiable', function () {
     expect(function () {
-      new Tile()
+      new Tile() // eslint-disable-line no-new
     }).not.toThrow()
 
     expect(new Tile() instanceof Tile).toBe(true)
@@ -12,7 +12,7 @@ describe('Tile', function () {
 
   it('should throw an error when given an invalid character', function () {
     expect(function () {
-      new Tile('nope')
+      new Tile('nope') // eslint-disable-line no-new
     }).toThrow()
   })
 

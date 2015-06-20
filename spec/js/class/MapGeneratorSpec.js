@@ -5,7 +5,7 @@ var MapGenerator = require('../../../src/js/class/MapGenerator.js')
 describe('MapGenerator', function () {
   it('should be instantiable', function () {
     expect(function () {
-      new MapGenerator()
+      new MapGenerator() // eslint-disable-line no-new
     }).not.toThrow()
 
     expect(new MapGenerator() instanceof MapGenerator).toBe(true)
@@ -30,7 +30,7 @@ describe('MapGenerator', function () {
 
     it('should throw an error if given an invalid map type', function () {
       expect(function () {
-        new MapGenerator({mapType: 'no way'})
+        new MapGenerator({mapType: 'no way'}) // eslint-disable-line no-new
       }).toThrow()
     })
   })

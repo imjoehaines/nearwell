@@ -4,7 +4,7 @@ var Room = require('../../../src/js/class/Room.js')
 describe('Room', function () {
   it('should be instantiable', function () {
     expect(function () {
-      new Room()
+      new Room() // eslint-disable-line no-new
     }).not.toThrow()
 
     expect(new Room() instanceof Room).toBe(true)
