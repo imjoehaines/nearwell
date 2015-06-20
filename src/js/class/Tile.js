@@ -1,14 +1,9 @@
 'use strict'
 
 var _ = require('lodash')
+var TileTypes = require('../helpers/TileTypes')
 
-var empty = ' '
-var wall = '#'
-var floor = '.'
-
-var allowedOptions = [empty, wall, floor]
-var blockingCharacters = [wall]
-var defaultCharacter = empty
+var defaultCharacter = TileTypes.empty
 
 /**
  * Tile class - represents a single tile in a map
@@ -18,7 +13,7 @@ var defaultCharacter = empty
 var Tile = function (character) {
   if (typeof character === 'undefined') character = defaultCharacter
 
-  if (_.indexOf(allowedOptions, character) === -1) {
+  if (_.indexOf(TileTypes.validTypes, character) === -1) {
     throw new Error(character + ' is not a valid character')
   }
 
@@ -35,7 +30,7 @@ Tile.prototype.getCharacter = function () {
  * @return {Boolean} true if tile blocks movement
  */
 Tile.prototype.isBlocking = function () {
-  return _.indexOf(blockingCharacters, this.getCharacter()) !== -1
+  return _.indexOf(TileTypes.blockingTypes, this.getCharacter()) !== -1
 }
 
 module.exports = Tile

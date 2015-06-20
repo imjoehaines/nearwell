@@ -28,6 +28,7 @@
     "grunt-contrib-watch": "^0.6.1",
     "grunt-notify": "^0.4.1",
     "pre-commit": "^1.0.10",
+    "root-path": "^0.2.0",
     "standard": "^4.3.1"
   },
   "dependencies": {

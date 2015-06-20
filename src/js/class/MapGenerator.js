@@ -38,34 +38,12 @@ MapGenerator.prototype.generate = function () {
   switch (this.mapType) {
     case 'dungeon':
       // TODO: write dungeon map generation class
-      this.generatedMap = makeInitialMap(this.width, this.height)
+      // this.generatedMap = makeInitialMap(this.width, this.height)
 
       return this.generatedMap
     default:
       throw new Error('Unable to generate a "' + this.mapType + '" map')
   }
-}
-
-/**
- * Generates the inital map for all map types
- *
- * @param {Integer} width
- * @param {Integer} height
- * @return {Array}
- */
-var makeInitialMap = function (width, height) {
-  var map = []
-
-  for (var y = 0; y < height; y++) {
-    var row = []
-    for (var x = 0; x < width; x++) {
-      row.push('#')
-    }
-
-    map.push(row)
-  }
-
-  return map
 }
 
 module.exports = MapGenerator

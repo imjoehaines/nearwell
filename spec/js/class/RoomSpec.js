@@ -1,5 +1,5 @@
 /*global describe, it, expect */
-var Room = require('../../../src/js/class/Room.js')
+var Room = require('../../../src/js/class/Room')
 
 describe('Room', function () {
   it('should be instantiable', function () {

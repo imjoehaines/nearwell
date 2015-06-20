@@ -1,6 +1,5 @@
 /*global describe, it, expect */
-var _ = require('lodash')
-var MapGenerator = require('../../../src/js/class/MapGenerator.js')
+var MapGenerator = require('../../../src/js/class/MapGenerator')
 
 describe('MapGenerator', function () {
   it('should be instantiable', function () {
@@ -42,27 +41,6 @@ describe('MapGenerator', function () {
           new MapGenerator({mapType: 'no way'}) // eslint-disable-line no-new
         }).toThrow()
       })
-    })
-  })
-
-  describe('Map generation', function () {
-    var validCharacters = [' ', '.', '#']
-
-    it('should return an array', function () {
-      expect(new MapGenerator().generate() instanceof Array).toBe(true)
-    })
-
-    it('should build a two dimentional array of valid characters', function () {
-      var generatedMap = new MapGenerator({width: 3, height: 2}).generate()
-
-      // check width & height
-      expect(generatedMap.length).toBe(2)
-      expect(generatedMap[0].length).toBe(3)
-
-      // check dimentions after stripping all valid characters
-      expect(_.map(generatedMap, function (row) {
-        return _.difference(row, validCharacters)
-      })).toEqual([[], []])
     })
   })
 })

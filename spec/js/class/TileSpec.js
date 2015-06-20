@@ -1,5 +1,6 @@
 /*global describe, it, expect */
-var Tile = require('../../../src/js/class/Tile.js')
+var Tile = require('../../../src/js/class/Tile')
+var TileTypes = require('../../../src/js/helpers/TileTypes')
 
 describe('Tile', function () {
   it('should be instantiable', function () {
@@ -17,19 +18,19 @@ describe('Tile', function () {
   })
 
   it('should set a default character when none is given', function () {
-    expect(new Tile().getCharacter()).toBe(' ')
+    expect(new Tile().getCharacter()).toBe(TileTypes.empty)
   })
 
   it('should set a character when given', function () {
-    expect(new Tile('.').getCharacter()).toBe('.')
-    expect(new Tile('#').getCharacter()).toBe('#')
+    expect(new Tile(TileTypes.floor).getCharacter()).toBe(TileTypes.floor)
+    expect(new Tile(TileTypes.wall).getCharacter()).toBe(TileTypes.wall)
   })
 
   it('should not be blocking if it is not a wall', function () {
-    expect(new Tile().isBlocking()).toBe(false)
+    expect(new Tile(TileTypes.floor).isBlocking()).toBe(false)
   })
 
   it('should be blocking if it is a wall', function () {
-    expect(new Tile('#').isBlocking()).toBe(true)
+    expect(new Tile(TileTypes.wall).isBlocking()).toBe(true)
   })
 })
