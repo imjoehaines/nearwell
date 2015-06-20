@@ -2,8 +2,8 @@
 
 var _ = require('lodash')
 
-var roomSpec = {minRoomSize: 2, maxRoomSize: 10, maxRooms: 10}
-var defaults = {mapType: 'dungeon', width: 100, height: 100, roomSpec: roomSpec}
+var roomOptions = {minRoomSize: 2, maxRoomSize: 10, maxRooms: 10}
+var defaults = {mapType: 'dungeon', width: 100, height: 100, roomOptions: roomOptions}
 var allowedMapTypes = ['dungeon', 'cave']
 
 /**
@@ -22,6 +22,10 @@ var MapGenerator = function (options) {
   this.mapType = options.mapType
   this.width = options.width
   this.height = options.height
+
+  if (options.mapType === 'dungeon') {
+    this.roomOptions = options.roomOptions
+  }
 }
 
 MapGenerator.prototype.getMapType = function () {

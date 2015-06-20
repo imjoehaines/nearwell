@@ -41,6 +41,26 @@ describe('MapGenerator', function () {
           new MapGenerator({mapType: 'no way'}) // eslint-disable-line no-new
         }).toThrow()
       })
+
+      it('should set room options if the map is a dungeon', function () {
+        expect(new MapGenerator({
+          mapType: 'dungeon', roomOptions: {minRoomSize: 100}
+        }).roomOptions.minRoomSize).toBe(100)
+
+        expect(new MapGenerator({
+          mapType: 'dungeon', roomOptions: {maxRoomSize: 200}
+        }).roomOptions.maxRoomSize).toBe(200)
+
+        expect(new MapGenerator({
+          mapType: 'dungeon', roomOptions: {maxRooms: 123}
+        }).roomOptions.maxRooms).toBe(123)
+      })
+
+      it('shouldn\'t set room options for caves', function () {
+        expect(new MapGenerator({
+          mapType: 'cave', roomOptions: {maxRooms: 123}
+        }).roomOptions).toBeUndefined()
+      })
     })
   })
 })
