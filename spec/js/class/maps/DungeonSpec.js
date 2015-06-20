@@ -24,4 +24,13 @@ describe('Dungeon', function () {
     expect(new Dungeon({width: 10}).width).toBe(10)
     expect(new Dungeon({height: 20}).height).toBe(20)
   })
+
+  it('should set min and max room size', function () {
+    expect(new Dungeon({minRoomSize: 2}).minRoomSize).toBe(2)
+    expect(new Dungeon({maxRoomSize: 15}).maxRoomSize).toBe(15)
+  })
+
+  it('should set a max number of rooms', function () {
+    expect(new Dungeon({maxRooms: 150}).maxRooms).toBe(150)
+  })
 })
