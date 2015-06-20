@@ -2,9 +2,9 @@
 
 var _ = require('lodash')
 
-var empty = ' ',
-    wall = '#',
-    floor = '.'
+var empty = ' '
+var wall = '#'
+var floor = '.'
 
 var allowedOptions = [empty, wall, floor]
 var blockingCharacters = [wall]
