@@ -29,7 +29,7 @@ var Dungeon = function (options) {
 Dungeon.prototype = Object.create(BaseMap.prototype)
 Dungeon.prototype.constructor = Dungeon
 
-Dungeon.prototype.generateSingleRoom = function (calls) {
+Dungeon.prototype.generateSingleRoom = function () {
   var options = {
     x: random(1, this.height - (this.maxRoomSize + 1)),
     y: random(1, this.width - (this.maxRoomSize + 1)),
@@ -39,14 +39,17 @@ Dungeon.prototype.generateSingleRoom = function (calls) {
 
   var newRoom = new Room(options)
 
-  // stop overlapping rooms in most cases but occasionally let one through
-  // this stops long/infinite recursive loops and makes the map more interesting
-  if (calls > 20 || random(0, 5) === 0) return newRoom
-
   // try to stop rooms from intersecting
   forEach(this.rooms, function (room) {
-    if (newRoom.isIntersecting(room)) {
-      return this.generateSingleRoom(calls + 1)
+    while (newRoom.isIntersecting(room)) {
+      options = {
+        x: random(1, this.height - (this.maxRoomSize + 1)),
+        y: random(1, this.width - (this.maxRoomSize + 1)),
+        width: random(this.minRoomSize, this.maxRoomSize),
+        height: random(this.minRoomSize, this.maxRoomSize)
+      }
+
+      newRoom = new Room(options)
     }
   }, this)
 
@@ -60,8 +63,7 @@ Dungeon.prototype.generateRooms = function () {
   var numberOfRooms = random(1, this.maxRooms)
 
   for (var i = 0; i < numberOfRooms; i++) {
-    var calls = 1
-    var newRoom = this.generateSingleRoom(calls)
+    var newRoom = this.generateSingleRoom()
     this.rooms.push(newRoom)
   }
 }
@@ -81,7 +83,7 @@ Dungeon.prototype.addSingleRoomToMap = function (room) {
       var isWallColumn = room.getX() === x || room.getBrX() - 1 === x
 
       // if this is the first & last column or row use a wall, otherwise use the floor
-      this.generatedMap[y][x] = (isWallRow || isWallColumn) ? TileTypes.wall : TileTypes.floor
+      this.generatedMap[x][y] = (isWallRow || isWallColumn) ? TileTypes.wall : TileTypes.floor
     }
   }
 }
@@ -111,6 +113,7 @@ Dungeon.prototype.generateMap = function () {
   this.generatedMap = this.generateInitialMap()
   this.generateRooms()
   this.addRoomsToMap()
+  return this.generatedMap
 }
 
 module.exports = Dungeon

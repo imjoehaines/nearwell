@@ -2,8 +2,9 @@
 
 var merge = require('lodash/object/merge')
 var contains = require('lodash/collection/contains')
+var Dungeon = require('./maps/Dungeon')
 
-var roomOptions = {minRoomSize: 2, maxRoomSize: 10, maxRooms: 10}
+var roomOptions = {minRoomSize: 3, maxRoomSize: 10, maxRooms: 10}
 var defaults = {mapType: 'dungeon', width: 100, height: 100, roomOptions: roomOptions}
 var allowedMapTypes = ['dungeon', 'cave']
 
@@ -42,8 +43,9 @@ MapGenerator.prototype.getMapType = function () {
 MapGenerator.prototype.generate = function () {
   switch (this.mapType) {
     case 'dungeon':
-      // TODO: write dungeon map generation class
-      // this.generatedMap = makeInitialMap(this.width, this.height)
+      var options = merge({}, this.roomOptions, {width: this.width, height: this.height})
+      var dungeon = new Dungeon(options)
+      this.generatedMap = dungeon.generateMap()
 
       return this.generatedMap
     default:

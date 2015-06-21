@@ -75,8 +75,8 @@ describe('Dungeon', function () {
     var x = room.getX()
     var y = room.getY()
 
-    expect(dungeon.generatedMap[y][x]).toEqual(TileTypes.wall)
-    expect(dungeon.generatedMap[y + 1][x + 1]).toEqual(TileTypes.floor)
+    expect(dungeon.generatedMap[x][y]).toEqual(TileTypes.wall)
+    expect(dungeon.generatedMap[x + 1][y + 1]).toEqual(TileTypes.floor)
   })
 
   it('should generate a single room', function () {
