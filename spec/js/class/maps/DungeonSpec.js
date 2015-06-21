@@ -67,7 +67,7 @@ describe('Dungeon', function () {
     it('should place the rooms in the map', function () {
       var roomSize = random(3, 10)
       var dungeon = new Dungeon({
-        width: 50, height: 50, minRoomSize: roomSize, maxRoomSize: roomSize, maxRooms: 15
+        width: 50, height: 50, minRoomSize: roomSize, maxRoomSize: roomSize, maxRooms: 1
       })
 
       dungeon.generateMap()
