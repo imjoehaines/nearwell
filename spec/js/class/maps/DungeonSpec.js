@@ -48,27 +48,26 @@ describe('Dungeon', function () {
       })
 
       it('should set room properties to random values between given options', function () {
-        var dungeon = new Dungeon({
-          width: 10, height: 10, minRoomSize: 2, maxRoomSize: 4, maxRooms: 5
-        })
+        var options = {width: 100, height: 100, minRoomSize: 2, maxRoomSize: 4, maxRooms: 5}
+        var dungeon = new Dungeon(options)
 
         dungeon.generateRooms()
 
-        expect(dungeon.rooms[0].getWidth()).toBeLessThan(5)
-        expect(dungeon.rooms[0].getWidth()).toBeGreaterThan(1)
-        expect(dungeon.rooms[0].getHeight()).toBeLessThan(5)
-        expect(dungeon.rooms[0].getHeight()).toBeGreaterThan(1)
-        expect(dungeon.rooms[0].getX()).toBeLessThan(11)
+        expect(dungeon.rooms[0].getWidth()).toBeLessThan(options.maxRoomSize + 1)
+        expect(dungeon.rooms[0].getWidth()).toBeGreaterThan(options.minRoomSize - 1)
+        expect(dungeon.rooms[0].getHeight()).toBeLessThan(options.maxRoomSize + 1)
+        expect(dungeon.rooms[0].getHeight()).toBeGreaterThan(options.minRoomSize - 1)
+        expect(dungeon.rooms[0].getX()).toBeLessThan(options.width + 1)
         expect(dungeon.rooms[0].getX()).toBeGreaterThan(0)
-        expect(dungeon.rooms[0].getY()).toBeLessThan(11)
+        expect(dungeon.rooms[0].getY()).toBeLessThan(options.height + 1)
         expect(dungeon.rooms[0].getY()).toBeGreaterThan(0)
       })
     })
 
     it('should place the rooms in the map', function () {
-      var roomSize = random(3, 5)
+      var roomSize = random(3, 10)
       var dungeon = new Dungeon({
-        width: 30, height: 30, minRoomSize: roomSize, maxRoomSize: roomSize, maxRooms: 1
+        width: 50, height: 50, minRoomSize: roomSize, maxRoomSize: roomSize, maxRooms: 15
       })
 
       dungeon.generateMap()

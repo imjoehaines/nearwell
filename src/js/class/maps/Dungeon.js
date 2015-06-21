@@ -1,6 +1,7 @@
 'use strict'
 
 var merge = require('lodash/object/merge')
+var forEach = require('lodash/collection/forEach')
 var random = require('random-number-in-range')
 var BaseMap = require('./BaseMap')
 var Room = require('../Room')
@@ -28,25 +29,48 @@ var Dungeon = function (options) {
 Dungeon.prototype = Object.create(BaseMap.prototype)
 Dungeon.prototype.constructor = Dungeon
 
+Dungeon.prototype.generateSingleRoom = function (calls) {
+  var options = {
+    x: random(1, this.height - (this.maxRoomSize + 1)),
+    y: random(1, this.width - (this.maxRoomSize + 1)),
+    width: random(this.minRoomSize, this.maxRoomSize),
+    height: random(this.minRoomSize, this.maxRoomSize)
+  }
+
+  var newRoom = new Room(options)
+
+  // stop overlapping rooms in most cases but occasionally let one through
+  // this stops long/infinite recursive loops and makes the map more interesting
+  if (calls > 20 || random(0, 5) === 0) return newRoom
+
+  // try to stop rooms from intersecting
+  forEach(this.rooms, function (room) {
+    if (newRoom.isIntersecting(room)) {
+      return this.generateSingleRoom(calls + 1)
+    }
+  }, this)
+
+  return newRoom
+}
+
 /**
  * Generates rooms and sets them to this.rooms array
  */
 Dungeon.prototype.generateRooms = function () {
   var numberOfRooms = random(1, this.maxRooms)
 
-  // TODO: constrict size & placement of room to within the overall map
   for (var i = 0; i < numberOfRooms; i++) {
-    var options = {
-      x: random(1, this.height - 1),
-      y: random(1, this.width - 1),
-      width: random(this.minRoomSize, this.maxRoomSize),
-      height: random(this.minRoomSize, this.maxRoomSize)
-    }
-
-    this.rooms.push(new Room(options))
+    var calls = 1
+    var newRoom = this.generateSingleRoom(calls)
+    this.rooms.push(newRoom)
   }
 }
 
+/**
+ * Adds a single room to the map
+ *
+ * @param {Room} room
+ */
 Dungeon.prototype.addSingleRoomToMap = function (room) {
   for (var y = room.getY(); y < room.getBrY(); y++) {
     // true for the first and last rows
@@ -66,6 +90,11 @@ Dungeon.prototype.generateCorridors = function (currentCenter, previousCenter) {
   // TODO: write this function
 }
 
+/**
+ * Adds all generated rooms to the map
+ *
+ * @param {Array} map the map to add the rooms to
+ */
 Dungeon.prototype.addRoomsToMap = function (map) {
   for (var i = 0; i < this.rooms.length; i++) {
     var currentRoom = this.rooms[i]
@@ -77,6 +106,9 @@ Dungeon.prototype.addRoomsToMap = function (map) {
   }
 }
 
+/**
+ * Main function called by a MapGenerator to generate a Dungeon
+ */
 Dungeon.prototype.generateMap = function () {
   this.generatedMap = this.generateInitialMap()
   this.generateRooms()
