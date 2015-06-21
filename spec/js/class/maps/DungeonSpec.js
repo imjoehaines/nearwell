@@ -1,4 +1,4 @@
-/*global describe, it, expect */
+/*global describe, it, expect, spyOn */
 var random = require('random-number-in-range')
 var Dungeon = require('../../../../src/js/class/maps/Dungeon')
 var BaseMap = require('../../../../src/js/class/maps/BaseMap')
@@ -38,46 +38,64 @@ describe('Dungeon', function () {
   })
 
   describe('generateMap', function () {
-    describe('generateRooms', function () {
-      it('should generate a random number of rooms', function () {
-        var dungeon = new Dungeon({maxRooms: 5})
-        dungeon.generateRooms()
+    it('should generate a random number of rooms', function () {
+      var dungeon = new Dungeon({maxRooms: 5})
+      dungeon.generateRooms()
 
-        expect(dungeon.rooms[0] instanceof Room).toBe(true)
-        expect(dungeon.rooms.length).toBeLessThan(6)
-      })
-
-      it('should set room properties to random values between given options', function () {
-        var options = {width: 100, height: 100, minRoomSize: 2, maxRoomSize: 4, maxRooms: 5}
-        var dungeon = new Dungeon(options)
-
-        dungeon.generateRooms()
-
-        expect(dungeon.rooms[0].getWidth()).toBeLessThan(options.maxRoomSize + 1)
-        expect(dungeon.rooms[0].getWidth()).toBeGreaterThan(options.minRoomSize - 1)
-        expect(dungeon.rooms[0].getHeight()).toBeLessThan(options.maxRoomSize + 1)
-        expect(dungeon.rooms[0].getHeight()).toBeGreaterThan(options.minRoomSize - 1)
-        expect(dungeon.rooms[0].getX()).toBeLessThan(options.width + 1)
-        expect(dungeon.rooms[0].getX()).toBeGreaterThan(0)
-        expect(dungeon.rooms[0].getY()).toBeLessThan(options.height + 1)
-        expect(dungeon.rooms[0].getY()).toBeGreaterThan(0)
-      })
+      expect(dungeon.rooms[0] instanceof Room).toBe(true)
+      expect(dungeon.rooms.length).toBeLessThan(6)
     })
 
-    it('should place the rooms in the map', function () {
-      var roomSize = random(3, 10)
-      var dungeon = new Dungeon({
-        width: 50, height: 50, minRoomSize: roomSize, maxRoomSize: roomSize, maxRooms: 1
-      })
+    it('should set room properties to random values between given options', function () {
+      var options = {width: 100, height: 100, minRoomSize: 2, maxRoomSize: 4, maxRooms: 5}
+      var dungeon = new Dungeon(options)
 
-      dungeon.generateMap()
+      dungeon.generateRooms()
 
-      var room = dungeon.rooms[0]
-      var x = room.getX()
-      var y = room.getY()
-
-      expect(dungeon.generatedMap[y][x]).toEqual(TileTypes.wall)
-      expect(dungeon.generatedMap[y + 1][x + 1]).toEqual(TileTypes.floor)
+      expect(dungeon.rooms[0].getWidth()).toBeLessThan(options.maxRoomSize + 1)
+      expect(dungeon.rooms[0].getWidth()).toBeGreaterThan(options.minRoomSize - 1)
+      expect(dungeon.rooms[0].getHeight()).toBeLessThan(options.maxRoomSize + 1)
+      expect(dungeon.rooms[0].getHeight()).toBeGreaterThan(options.minRoomSize - 1)
+      expect(dungeon.rooms[0].getX()).toBeLessThan(options.width + 1)
+      expect(dungeon.rooms[0].getX()).toBeGreaterThan(0)
+      expect(dungeon.rooms[0].getY()).toBeLessThan(options.height + 1)
+      expect(dungeon.rooms[0].getY()).toBeGreaterThan(0)
     })
   })
+
+  it('should place the rooms in the map', function () {
+    var roomSize = random(3, 10)
+    var dungeon = new Dungeon({
+      width: 50, height: 50, minRoomSize: roomSize, maxRoomSize: roomSize, maxRooms: 1
+    })
+
+    dungeon.generateMap()
+
+    var room = dungeon.rooms[0]
+    var x = room.getX()
+    var y = room.getY()
+
+    expect(dungeon.generatedMap[y][x]).toEqual(TileTypes.wall)
+    expect(dungeon.generatedMap[y + 1][x + 1]).toEqual(TileTypes.floor)
+  })
+
+  it('should generate a single room', function () {
+    var options = {width: 100, height: 100, minRoomSize: 2, maxRoomSize: 4, maxRooms: 5}
+    var dungeon = new Dungeon(options)
+    var room = dungeon.generateSingleRoom(0)
+
+    expect(room instanceof Room).toBe(true)
+  })
+
+  it('should exit on the 20th call', function () {
+    var options = {width: 100, height: 100, minRoomSize: 2, maxRoomSize: 4, maxRooms: 5}
+    var dungeon = new Dungeon(options)
+
+    spyOn(dungeon, 'generateSingleRoom')
+    dungeon.generateSingleRoom(20)
+
+    // expect it to have only been called once
+    expect(dungeon.generateSingleRoom.calls.count()).toBe(1)
+  })
+
 })
