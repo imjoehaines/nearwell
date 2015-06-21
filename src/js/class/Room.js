@@ -30,6 +30,14 @@ Room.prototype.getY = function () {
   return this.y
 }
 
+Room.prototype.getBrX = function () {
+  return this.brX
+}
+
+Room.prototype.getBrY = function () {
+  return this.brY
+}
+
 Room.prototype.getWidth = function () {
   return this.width
 }

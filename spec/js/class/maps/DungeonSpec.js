@@ -1,7 +1,9 @@
 /*global describe, it, expect */
+var random = require('random-number-in-range')
 var Dungeon = require('../../../../src/js/class/maps/Dungeon')
 var BaseMap = require('../../../../src/js/class/maps/BaseMap')
 var Room = require('../../../../src/js/class/Room')
+var TileTypes = require('../../../../src/js/helpers/TileTypes')
 
 describe('Dungeon', function () {
   it('should be instantiable', function () {
@@ -35,30 +37,48 @@ describe('Dungeon', function () {
     expect(new Dungeon({maxRooms: 150}).maxRooms).toBe(150)
   })
 
-  describe('generateRooms', function () {
-    it('should generate a random number of rooms', function () {
-      var dungeon = new Dungeon({maxRooms: 5})
-      dungeon.generateRooms()
+  describe('generateMap', function () {
+    describe('generateRooms', function () {
+      it('should generate a random number of rooms', function () {
+        var dungeon = new Dungeon({maxRooms: 5})
+        dungeon.generateRooms()
 
-      expect(dungeon.rooms[0] instanceof Room).toBe(true)
-      expect(dungeon.rooms.length).toBeLessThan(6)
-    })
-
-    it('should set room properties to random values between given options', function () {
-      var dungeon = new Dungeon({
-        width: 10, height: 10, minRoomSize: 2, maxRoomSize: 4, maxRooms: 5
+        expect(dungeon.rooms[0] instanceof Room).toBe(true)
+        expect(dungeon.rooms.length).toBeLessThan(6)
       })
 
-      dungeon.generateRooms()
+      it('should set room properties to random values between given options', function () {
+        var dungeon = new Dungeon({
+          width: 10, height: 10, minRoomSize: 2, maxRoomSize: 4, maxRooms: 5
+        })
 
-      expect(dungeon.rooms[0].getWidth()).toBeLessThan(5)
-      expect(dungeon.rooms[0].getWidth()).toBeGreaterThan(1)
-      expect(dungeon.rooms[0].getHeight()).toBeLessThan(5)
-      expect(dungeon.rooms[0].getHeight()).toBeGreaterThan(1)
-      expect(dungeon.rooms[0].getX()).toBeLessThan(11)
-      expect(dungeon.rooms[0].getX()).toBeGreaterThan(0)
-      expect(dungeon.rooms[0].getY()).toBeLessThan(11)
-      expect(dungeon.rooms[0].getY()).toBeGreaterThan(0)
+        dungeon.generateRooms()
+
+        expect(dungeon.rooms[0].getWidth()).toBeLessThan(5)
+        expect(dungeon.rooms[0].getWidth()).toBeGreaterThan(1)
+        expect(dungeon.rooms[0].getHeight()).toBeLessThan(5)
+        expect(dungeon.rooms[0].getHeight()).toBeGreaterThan(1)
+        expect(dungeon.rooms[0].getX()).toBeLessThan(11)
+        expect(dungeon.rooms[0].getX()).toBeGreaterThan(0)
+        expect(dungeon.rooms[0].getY()).toBeLessThan(11)
+        expect(dungeon.rooms[0].getY()).toBeGreaterThan(0)
+      })
+    })
+
+    it('should place the rooms in the map', function () {
+      var roomSize = random(3, 5)
+      var dungeon = new Dungeon({
+        width: 30, height: 30, minRoomSize: roomSize, maxRoomSize: roomSize, maxRooms: 1
+      })
+
+      dungeon.generateMap()
+
+      var room = dungeon.rooms[0]
+      var x = room.getX()
+      var y = room.getY()
+
+      expect(dungeon.generatedMap[y][x]).toEqual(TileTypes.wall)
+      expect(dungeon.generatedMap[y + 1][x + 1]).toEqual(TileTypes.floor)
     })
   })
 })
