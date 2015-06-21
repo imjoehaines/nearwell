@@ -1,7 +1,21 @@
-var a = 123
+var MapGenerator = require('./class/MapGenerator')
 
-a = a + 11
+var map = new MapGenerator({
+  width: 162,
+  height: 46,
+  roomOptions: {
+    maxRooms: 20
+  }
+}).generate()
 
-console.log('plsa')
+document.write('<pre>')
 
-module.exports = a
+for (var i = 0; i < map.length; i++) {
+  var row = map[i]
+  for (var j = 0; j < row.length; j++) {
+    document.write(row[j])
+  }
+
+  document.write('\n')
+}
+document.write('</pre>')

@@ -11,7 +11,7 @@ module.exports = function (grunt) {
 
     browserify: {
       develop: {
-        src: ['js/**/*.js'],
+        src: ['src/js/**/*.js'],
         dest: 'dist/js/nearwell.js',
         options: {browserifyOptions: {debug: true}}
       },
@@ -31,7 +31,7 @@ module.exports = function (grunt) {
     watch: {
       js: {
         files: ['src/js/**/*.js', 'spec/**/*.js'],
-        tasks: ['browserify:specs', 'jasmine:all']
+        tasks: ['browserify:develop', 'browserify:specs', 'jasmine:all']
       }
     }
   })
