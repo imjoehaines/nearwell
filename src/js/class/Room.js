@@ -55,8 +55,8 @@ Room.prototype.getCenter = function () {
   // don't calculate the center unless we need to
   if (!this.center) {
     this.center = [
-      Math.floor((this.y + this.brY) / 2),
-      Math.floor((this.x + this.brX) / 2)
+      Math.floor((this.x + this.brX) / 2),
+      Math.floor((this.y + this.brY) / 2)
     ]
   }
 
