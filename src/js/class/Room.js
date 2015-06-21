@@ -73,8 +73,8 @@ Room.prototype.getCenter = function () {
 Room.prototype.isIntersecting = function (otherRoom) {
   if (!(otherRoom instanceof Room)) throw new Error('otherRoom is not a Room')
 
-  return (this.x <= otherRoom.brX && this.brX >= otherRoom.x &&
-    this.y <= otherRoom.brY && otherRoom.brY >= otherRoom.y)
+  return !(otherRoom.x >= this.brX || otherRoom.brX <= this.x ||
+    otherRoom.y >= this.brY || otherRoom.brY <= this.y)
 }
 
 module.exports = Room

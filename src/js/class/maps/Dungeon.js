@@ -41,7 +41,8 @@ Dungeon.prototype.generateSingleRoom = function () {
 
   // try to stop rooms from intersecting
   forEach(this.rooms, function (room) {
-    while (newRoom.isIntersecting(room)) {
+    // don't allow intersecting rooms but bail out after 50 attempts
+    for (var i = 0; (newRoom.isIntersecting(room)) && i < 50; i++) {
       options = {
         x: random(1, this.height - (this.maxRoomSize + 1)),
         y: random(1, this.width - (this.maxRoomSize + 1)),

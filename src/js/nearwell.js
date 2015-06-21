@@ -18,4 +18,5 @@ for (var i = 0; i < map.length; i++) {
 
   document.write('\n')
 }
+
 document.write('</pre>')
