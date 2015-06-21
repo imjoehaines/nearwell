@@ -1,6 +1,6 @@
 'use strict'
 
-var indexOf = require('lodash/array/indexOf')
+var contains = require('lodash/collection/contains')
 var TileTypes = require('../helpers/TileTypes')
 
 var defaultCharacter = TileTypes.empty
@@ -13,7 +13,7 @@ var defaultCharacter = TileTypes.empty
 var Tile = function (character) {
   if (typeof character === 'undefined') character = defaultCharacter
 
-  if (indexOf(TileTypes.validTypes, character) === -1) {
+  if (contains(TileTypes.validTypes, character) === false) {
     throw new Error(character + ' is not a valid character')
   }
 
@@ -30,7 +30,7 @@ Tile.prototype.getCharacter = function () {
  * @return {Boolean} true if tile blocks movement
  */
 Tile.prototype.isBlocking = function () {
-  return indexOf(TileTypes.blockingTypes, this.getCharacter()) !== -1
+  return contains(TileTypes.blockingTypes, this.getCharacter()) === true
 }
 
 module.exports = Tile

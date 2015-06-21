@@ -1,7 +1,7 @@
 'use strict'
 
 var merge = require('lodash/object/merge')
-var indexOf = require('lodash/array/indexOf')
+var contains = require('lodash/collection/contains')
 
 var roomOptions = {minRoomSize: 2, maxRoomSize: 10, maxRooms: 10}
 var defaults = {mapType: 'dungeon', width: 100, height: 100, roomOptions: roomOptions}
@@ -16,7 +16,7 @@ var allowedMapTypes = ['dungeon', 'cave']
 var MapGenerator = function (options) {
   options = merge({}, defaults, options)
 
-  if (indexOf(allowedMapTypes, options.mapType) === -1) {
+  if (contains(allowedMapTypes, options.mapType) === false) {
     throw new Error(options.mapType + ' is not a valid map type')
   }
 
