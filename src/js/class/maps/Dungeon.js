@@ -103,9 +103,11 @@ Dungeon.prototype.generateCorridors = function (currentCenter, previousCenter) {
  * Adds all generated rooms to the map
  */
 Dungeon.prototype.addRoomsToMap = function () {
+  var currentRoom
+
   for (var i = 0; i < this.rooms.length; i++) {
     var drawWalls = true
-    var currentRoom = this.rooms[i]
+    currentRoom = this.rooms[i]
     this.addSingleRoomToMap(currentRoom, drawWalls)
 
     if (i > 0) {
