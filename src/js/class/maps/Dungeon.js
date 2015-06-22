@@ -122,16 +122,41 @@ Dungeon.prototype.addRoomsToMap = function () {
 }
 
 /**
+ * Joins rooms together when their walls are touching
+ */
+Dungeon.prototype.connectAdjacentRooms = function () {
+  for (var y = 0; y < this.height; y++) {
+    for (var x = 0; x < this.width; x++) {
+      // replace .##. with ....
+      if (this.generatedMap[y][x].character === TileTypes.floor &&
+        this.generatedMap[y][x + 1].character === TileTypes.wall &&
+        this.generatedMap[y][x + 2].character === TileTypes.wall &&
+        this.generatedMap[y][x + 3].character === TileTypes.floor) {
+        this.generatedMap[y][x + 1].character = TileTypes.floor
+        this.generatedMap[y][x + 2].character = TileTypes.floor
+      }
+
+      // replace .##. vertically with ....
+      if (this.generatedMap[y][x].character === TileTypes.floor &&
+        this.generatedMap[y + 1][x].character === TileTypes.wall &&
+        this.generatedMap[y + 2][x].character === TileTypes.wall &&
+        this.generatedMap[y + 3][x].character === TileTypes.floor) {
+        this.generatedMap[y + 1][x].character = TileTypes.floor
+        this.generatedMap[y + 2][x].character = TileTypes.floor
+      }
+    }
+  }
+}
+
+/**
  * Main function called by a MapGenerator to generate a Dungeon
  */
 Dungeon.prototype.generateMap = function () {
   this.generatedMap = this.generateInitialMap()
   this.generateRooms()
   this.addRoomsToMap()
-  // TODO: loop through the map looking for .##. & . and replace the # with .
-  //                                               #
-  //                                               #
-  //                                               .
+  this.connectAdjacentRooms()
+
   return this.generatedMap
 }
 
