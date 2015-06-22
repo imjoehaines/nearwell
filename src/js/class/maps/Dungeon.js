@@ -5,6 +5,7 @@ var forEach = require('lodash/collection/forEach')
 var random = require('random-number-in-range')
 var BaseMap = require('./BaseMap')
 var Room = require('../Room')
+var Tile = require('../Tile')
 var TileTypes = require('../../helpers/TileTypes')
 
 var defaults = {minRoomSize: 2, maxRoomSize: 10, maxRooms: 10}
@@ -74,7 +75,8 @@ Dungeon.prototype.generateRooms = function () {
  *
  * @param {Room} room
  */
-Dungeon.prototype.addSingleRoomToMap = function (room) {
+Dungeon.prototype.addSingleRoomToMap = function (room, drawWalls) {
+  drawWalls = drawWalls || false
   for (var y = room.getY(); y < room.getBrY(); y++) {
     // true for the first and last rows
     var isWallRow = room.getY() === y || room.getBrY() - 1 === y
@@ -84,7 +86,11 @@ Dungeon.prototype.addSingleRoomToMap = function (room) {
       var isWallColumn = room.getX() === x || room.getBrX() - 1 === x
 
       // if this is the first & last column or row use a wall, otherwise use the floor
-      this.generatedMap[x][y] = (isWallRow || isWallColumn) ? TileTypes.wall : TileTypes.floor
+      if ((isWallRow || isWallColumn) && drawWalls) {
+        this.generatedMap[x][y] = new Tile(TileTypes.wall)
+      } else if (!(isWallRow || isWallColumn)) {
+        this.generatedMap[x][y] = new Tile(TileTypes.floor)
+      }
     }
   }
 }
@@ -98,12 +104,20 @@ Dungeon.prototype.generateCorridors = function (currentCenter, previousCenter) {
  */
 Dungeon.prototype.addRoomsToMap = function () {
   for (var i = 0; i < this.rooms.length; i++) {
+    var drawWalls = true
     var currentRoom = this.rooms[i]
-    this.addSingleRoomToMap(currentRoom)
+    this.addSingleRoomToMap(currentRoom, drawWalls)
 
     if (i > 0) {
       this.generateCorridors(currentRoom.getCenter(), this.rooms[i - 1].getCenter())
     }
+  }
+
+  // loop through rooms again only drawing floor characters; this will 'hollow' out
+  // the rooms so if two are intersecting then the extra walls will become floors
+  for (i = 0; i < this.rooms.length; i++) {
+    currentRoom = this.rooms[i]
+    this.addSingleRoomToMap(currentRoom)
   }
 }
 
@@ -114,6 +128,10 @@ Dungeon.prototype.generateMap = function () {
   this.generatedMap = this.generateInitialMap()
   this.generateRooms()
   this.addRoomsToMap()
+  // TODO: loop through the map looking for .##. & . and replace the # with .
+  //                                               #
+  //                                               #
+  //                                               .
   return this.generatedMap
 }
 

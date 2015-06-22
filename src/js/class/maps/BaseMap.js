@@ -1,6 +1,7 @@
 'use strict'
 
 var merge = require('lodash/object/merge')
+var Tile = require('../Tile')
 var TileTypes = require('../../helpers/TileTypes')
 
 var defaults = {width: 100, height: 100}
@@ -28,7 +29,7 @@ BaseMap.prototype.generateInitialMap = function () {
   for (var y = 0; y < this.height; y++) {
     var row = []
     for (var x = 0; x < this.width; x++) {
-      row.push(TileTypes.empty)
+      row.push(new Tile(TileTypes.empty))
     }
 
     map.push(row)

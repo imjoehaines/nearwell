@@ -13,7 +13,7 @@ document.write('<pre>')
 for (var i = 0; i < map.length; i++) {
   var row = map[i]
   for (var j = 0; j < row.length; j++) {
-    document.write(row[j])
+    document.write(row[j].character)
   }
 
   document.write('\n')

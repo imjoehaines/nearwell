@@ -6,7 +6,7 @@
   },
   "scripts": {
     "test": "grunt jasmine:all",
-    "lint": "standard spec/js/**/* src/js/**/*"
+    "lint": "standard spec/js/**/**/**/**/**/* src/js/**/**/**/**/**/*"
   },
   "pre-commit": [
     "test",

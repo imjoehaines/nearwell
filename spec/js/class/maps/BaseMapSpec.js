@@ -25,6 +25,11 @@ describe('BaseMap', function () {
 
       // check dimentions after stripping all valid characters
       expect(map(generatedMap, function (row) {
+        // make the row a simple array of characters
+        row = map(row, function (tile) {
+          return tile.character
+        })
+
         return difference(row, TileTypes.validTypes)
       })).toEqual([[], []])
     })
