@@ -95,30 +95,30 @@ Dungeon.prototype.addSingleRoomToMap = function (room, drawWalls) {
   }
 }
 
-Dungeon.prototype.drawIfBlank = function (x, y, tileType) {
+Dungeon.prototype.drawIfEmpty = function (x, y, tileType) {
   if (this.generatedMap[y][x].character === TileTypes.empty) {
     this.generatedMap[y][x] = new Tile(tileType)
   }
 }
 
 Dungeon.prototype.generateHorizontalCorridor = function (x1, x2, y) {
-  for (var i = Math.min(x1, x2); i < Math.max(x1, x2) + 1; i++) {
+  for (var x = Math.min(x1, x2); x < Math.max(x1, x2) + 1; x++) {
     // generate walls around the corridor
-    this.drawIfBlank(i, y - 1, TileTypes.wall)
-    this.drawIfBlank(i, y + 1, TileTypes.wall)
+    this.drawIfEmpty(x, y - 1, TileTypes.wall)
+    this.drawIfEmpty(x, y + 1, TileTypes.wall)
 
-    this.drawIfBlank(i, y, TileTypes.floor)
+    this.generatedMap[y][x] = new Tile(TileTypes.floor)
   }
 }
 
 Dungeon.prototype.generateVerticalCorridor = function (y1, y2, x) {
 
-  for (var i = Math.min(y1, y2); i < Math.max(y1, y2) + 1; i++) {
+  for (var y = Math.min(y1, y2); y < Math.max(y1, y2) + 1; y++) {
     // generate walls around the corridor
-    this.drawIfBlank(x - 1, i, TileTypes.wall)
-    this.drawIfBlank(x + 1, i, TileTypes.wall)
+    this.drawIfEmpty(x - 1, y, TileTypes.wall)
+    this.drawIfEmpty(x + 1, y, TileTypes.wall)
 
-    this.drawIfBlank(x, i, TileTypes.floor)
+    this.generatedMap[y][x] = new Tile(TileTypes.floor)
   }
 }
 
