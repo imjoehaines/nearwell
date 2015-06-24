@@ -95,33 +95,30 @@ Dungeon.prototype.addSingleRoomToMap = function (room, drawWalls) {
   }
 }
 
-Dungeon.prototype.generateHorizontalCorridor = function (x1, x2, y) {
-  this.generatedMap[y - 1][Math.max(x1, x2) + 1] = new Tile(TileTypes.wall)
-  this.generatedMap[y + 1][Math.max(x1, x2) + 1] = new Tile(TileTypes.wall)
-  this.generatedMap[y - 1][Math.min(x1, x2) + 1] = new Tile(TileTypes.wall)
-  this.generatedMap[y + 1][Math.min(x1, x2) + 1] = new Tile(TileTypes.wall)
+Dungeon.prototype.drawIfBlank = function (x, y, tileType) {
+  if (this.generatedMap[y][x].character === TileTypes.empty) {
+    this.generatedMap[y][x] = new Tile(tileType)
+  }
+}
 
+Dungeon.prototype.generateHorizontalCorridor = function (x1, x2, y) {
   for (var i = Math.min(x1, x2); i < Math.max(x1, x2) + 1; i++) {
     // generate walls around the corridor
-    this.generatedMap[y - 1][i] = new Tile(TileTypes.wall)
-    this.generatedMap[y + 1][i] = new Tile(TileTypes.wall)
+    this.drawIfBlank(i, y - 1, TileTypes.wall)
+    this.drawIfBlank(i, y + 1, TileTypes.wall)
 
-    this.generatedMap[y][i] = new Tile(TileTypes.floor)
+    this.drawIfBlank(i, y, TileTypes.floor)
   }
 }
 
 Dungeon.prototype.generateVerticalCorridor = function (y1, y2, x) {
-  this.generatedMap[Math.max(y1, y2) - 1][x - 1] = new Tile(TileTypes.wall)
-  this.generatedMap[Math.max(y1, y2) - 1][x + 1] = new Tile(TileTypes.wall)
-  this.generatedMap[Math.min(y1, y2) - 1][x - 1] = new Tile(TileTypes.wall)
-  this.generatedMap[Math.min(y1, y2) - 1][x + 1] = new Tile(TileTypes.wall)
 
   for (var i = Math.min(y1, y2); i < Math.max(y1, y2) + 1; i++) {
     // generate walls around the corridor
-    this.generatedMap[i][x - 1] = new Tile(TileTypes.wall)
-    this.generatedMap[i][x + 1] = new Tile(TileTypes.wall)
+    this.drawIfBlank(x - 1, i, TileTypes.wall)
+    this.drawIfBlank(x + 1, i, TileTypes.wall)
 
-    this.generatedMap[i][x] = new Tile(TileTypes.floor)
+    this.drawIfBlank(x, i, TileTypes.floor)
   }
 }
 
@@ -175,14 +172,14 @@ Dungeon.prototype.connectTwoAway = function (x, y) {
 }
 
 Dungeon.prototype.connectOneAway = function (x, y) {
-    // replace .##. with ....
+    // replace .#. with ...
   if (this.generatedMap[y][x].character === TileTypes.floor &&
     this.generatedMap[y][x + 1].character === TileTypes.wall &&
     this.generatedMap[y][x + 2].character === TileTypes.floor) {
     this.generatedMap[y][x + 1].character = TileTypes.floor
   }
 
-  // replace .##. vertically with ....
+  // replace .#. vertically with ...
   if (this.generatedMap[y][x].character === TileTypes.floor &&
     this.generatedMap[y + 1][x].character === TileTypes.wall &&
     this.generatedMap[y + 2][x].character === TileTypes.floor) {
