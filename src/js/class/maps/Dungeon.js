@@ -3,6 +3,8 @@
 var merge = require('lodash/object/merge')
 var forEach = require('lodash/collection/forEach')
 var random = require('random-number-in-range')
+var inherits = require('inherits')
+
 var BaseMap = require('./BaseMap')
 var Room = require('../Room')
 var Tile = require('../Tile')
@@ -27,8 +29,7 @@ var Dungeon = function (options) {
   this.rooms = []
 }
 
-Dungeon.prototype = Object.create(BaseMap.prototype)
-Dungeon.prototype.constructor = Dungeon
+inherits(Dungeon, BaseMap)
 
 Dungeon.prototype.generateSingleRoom = function () {
   var options = {
