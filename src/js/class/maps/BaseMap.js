@@ -38,4 +38,8 @@ BaseMap.prototype.generateInitialMap = function () {
   return map
 }
 
+BaseMap.prototype.getStartPosition = function () {
+  return this.startPosition
+}
+
 module.exports = BaseMap

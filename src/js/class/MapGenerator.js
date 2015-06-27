@@ -34,6 +34,10 @@ MapGenerator.prototype.getMapType = function () {
   return this.mapType
 }
 
+MapGenerator.prototype.getStartPosition = function () {
+  return this.startPosition
+}
+
 /**
  * Main map generator function
  *
@@ -46,6 +50,7 @@ MapGenerator.prototype.generate = function () {
       var options = merge({}, this.roomOptions, {width: this.width, height: this.height})
       var dungeon = new Dungeon(options)
       this.generatedMap = dungeon.generateMap()
+      this.startPosition = dungeon.getStartPosition()
 
       return this.generatedMap
     default:

@@ -69,6 +69,11 @@ Dungeon.prototype.generateRooms = function () {
     var newRoom = this.generateSingleRoom()
     this.rooms.push(newRoom)
   }
+
+  this.startPosition = {
+    x: this.rooms[0].getX(),
+    y: this.rooms[0].getY()
+  }
 }
 
 /**
