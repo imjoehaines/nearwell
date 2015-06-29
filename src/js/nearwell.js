@@ -21,7 +21,7 @@ var colours = {
 
 var app = Potion.init(document.getElementById('game'), {
   configure: function () {
-    this.setSize(1000, 500)
+    app.resize(1000, 500)
     this.y = startPosition.x * 20 + 20
     this.x = startPosition.y * 20 + 20
   },
