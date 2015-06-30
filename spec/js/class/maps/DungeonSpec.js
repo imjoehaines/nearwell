@@ -125,4 +125,32 @@ describe('Dungeon', function () {
 
     expect(dungeon.generatedMap).toEqual(connectedFakeMap)
   })
+
+  it('should join together rooms sharing a wall', function () {
+    var dungeon = new Dungeon()
+    var fakeMap = [
+      [{character: ' '}, {character: ' '}, {character: ' '}, {character: ' '}, {character: ' '}, {character: ' '}],
+      [{character: ' '}, {character: '.'}, {character: '#'}, {character: ' '}, {character: '.'}, {character: ' '}],
+      [{character: ' '}, {character: '#'}, {character: '.'}, {character: '.'}, {character: '.'}, {character: ' '}],
+      [{character: ' '}, {character: '.'}, {character: ' '}, {character: '#'}, {character: '#'}, {character: ' '}],
+      [{character: ' '}, {character: '.'}, {character: '#'}, {character: '.'}, {character: '.'}, {character: ' '}],
+      [{character: ' '}, {character: ' '}, {character: ' '}, {character: ' '}, {character: ' '}, {character: ' '}]
+    ]
+
+    dungeon.generatedMap = fakeMap
+    dungeon.width = fakeMap[0].length
+    dungeon.height = fakeMap.length
+    dungeon.connectAdjacentRooms()
+
+    var connectedFakeMap = [
+      [{character: ' '}, {character: ' '}, {character: ' '}, {character: ' '}, {character: ' '}, {character: ' '}],
+      [{character: ' '}, {character: '.'}, {character: '#'}, {character: ' '}, {character: '.'}, {character: ' '}],
+      [{character: ' '}, {character: '.'}, {character: '.'}, {character: '.'}, {character: '.'}, {character: ' '}],
+      [{character: ' '}, {character: '.'}, {character: ' '}, {character: '.'}, {character: '.'}, {character: ' '}],
+      [{character: ' '}, {character: '.'}, {character: '.'}, {character: '.'}, {character: '.'}, {character: ' '}],
+      [{character: ' '}, {character: ' '}, {character: ' '}, {character: ' '}, {character: ' '}, {character: ' '}]
+    ]
+
+    expect(dungeon.generatedMap).toEqual(connectedFakeMap)
+  })
 })

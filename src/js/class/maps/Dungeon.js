@@ -101,12 +101,26 @@ Dungeon.prototype.addSingleRoomToMap = function (room, drawWalls) {
   }
 }
 
+/**
+ * Adds a tile to the map if it is empty
+ *
+ * @param {integer} x
+ * @param {integer} y
+ * @param {string} tileType
+ */
 Dungeon.prototype.drawIfEmpty = function (x, y, tileType) {
   if (this.generatedMap[y][x].character === TileTypes.empty) {
     this.generatedMap[y][x] = new Tile(tileType)
   }
 }
 
+/**
+ * Generates a horizontal corridor
+ *
+ * @param {integer} x1
+ * @param {integer} x2
+ * @param {integer} y
+ */
 Dungeon.prototype.generateHorizontalCorridor = function (x1, x2, y) {
   for (var x = Math.min(x1, x2); x < Math.max(x1, x2) + 1; x++) {
     // generate walls around the corridor
@@ -117,8 +131,14 @@ Dungeon.prototype.generateHorizontalCorridor = function (x1, x2, y) {
   }
 }
 
+/**
+ * Generates a vertical corridor
+ *
+ * @param {integer} y1
+ * @param {integer} y2
+ * @param {integer} x
+ */
 Dungeon.prototype.generateVerticalCorridor = function (y1, y2, x) {
-
   for (var y = Math.min(y1, y2); y < Math.max(y1, y2) + 1; y++) {
     // generate walls around the corridor
     this.drawIfEmpty(x - 1, y, TileTypes.wall)
@@ -128,6 +148,12 @@ Dungeon.prototype.generateVerticalCorridor = function (y1, y2, x) {
   }
 }
 
+/**
+ * Generates corridors between two rooms
+ *
+ * @param {array} currentCenter
+ * @param {array} previousCenter
+ */
 Dungeon.prototype.generateCorridors = function (currentCenter, previousCenter) {
   this.generateHorizontalCorridor(previousCenter[1], currentCenter[1], previousCenter[0])
   this.generateVerticalCorridor(previousCenter[0], currentCenter[0], currentCenter[1])
@@ -157,8 +183,14 @@ Dungeon.prototype.addRoomsToMap = function () {
   }
 }
 
+/**
+ * Connects rooms that are next to each other (.##.)
+ *
+ * @param {integer} x
+ * @param {integer} y
+ */
 Dungeon.prototype.connectTwoAway = function (x, y) {
-    // replace .##. with ....
+  // replace .##. with ....
   if (this.generatedMap[y][x].character === TileTypes.floor &&
     this.generatedMap[y][x + 1].character === TileTypes.wall &&
     this.generatedMap[y][x + 2].character === TileTypes.wall &&
@@ -177,8 +209,14 @@ Dungeon.prototype.connectTwoAway = function (x, y) {
   }
 }
 
+/**
+ * Connects rooms that share a wall (.#.)
+ *
+ * @param {integer} x
+ * @param {integer} y
+ */
 Dungeon.prototype.connectOneAway = function (x, y) {
-    // replace .#. with ...
+  // replace .#. with ...
   if (this.generatedMap[y][x].character === TileTypes.floor &&
     this.generatedMap[y][x + 1].character === TileTypes.wall &&
     this.generatedMap[y][x + 2].character === TileTypes.floor) {
